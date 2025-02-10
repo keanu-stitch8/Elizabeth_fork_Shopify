@@ -1,0 +1,37 @@
+{% if pagination.pages > 0 %}
+  <nav class="inline-flex justify-end items-center gap-x-1" aria-label="Pagination">
+    {% if pagination.previous %}
+      <a href="{{ pagination.previous.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" aria-label="Previous">
+        {{ pagination.previous.title }}
+      </a>
+    {% endif %}
+    {% for part in pagination.parts %}
+      <a href="{{ part.url }}" class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
+        {{ part.title }}
+      </a>
+    {% endfor %}
+    {% if pagination.next %}
+      <a href="{{ pagination.next.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" aria-label="Next">
+        {{ pagination.next.title }}</a>
+    {% endif %}
+  </nav>
+
+  <!-- Pagination -->
+{% comment %} <nav class="flex items-center gap-x-1" aria-label="Pagination">
+  <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" aria-label="Previous" disabled="">
+  {% render 'icon-chevron-left' %}
+    <span>Previous</span>
+  </button>
+  <div class="flex items-center gap-x-1">
+    <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none" aria-current="page">1</button>
+    <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">2</button>
+    <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">3</button>
+  </div>
+  <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" aria-label="Next">
+    <span>Next</span>
+    {% render 'icon-chevron-right' %}
+  </button>
+</nav> {% endcomment %}
+<!-- End Pagination -->
+
+{% endif %}

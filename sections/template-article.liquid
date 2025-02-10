@@ -26,12 +26,12 @@
           </div>
         </div>
       {% when 'featured_image' %}
-        <div class="max-w-7xl bg-blue-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4">
+        <div class="max-w-7xl bg-gray-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4">
           {% if article.image != blank %}
-            <img class="w-full h-80 md:h-96 object-cover object-center" src="{{ article.image | image_url: width: 1920, height: 1080 }}" alt="{{ article.image.alt }}" />
+            {% comment %} <img class="w-full h-80 md:h-96 object-cover object-center" src="{{ article.image | image_url: width: 1920, height: 1080 }}" alt="{{ article.image.alt }}" /> {% endcomment %}
+            {{ article.image | image_url: width: 1920, height: 1080 | image_tag }}
             {% else %}
-              {% assign placeholder_image = "lifestyle-2" %}
-              {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
           {% endif %}
         </div>
       {% when 'article_content' %}
@@ -61,9 +61,15 @@
               </p>
             </div>
           {% endfor %}
-          {% if paginate.pages > 1 %}
+
+          {% comment %} {% if paginate.pages > 1 %}
             {{  paginate| default_pagination }}
-          {% endif %}
+          {% endif %} {% endcomment %}
+
+          <div class="max-w-6xl mx-auto">
+            {% render 'pagination', pagination: paginate %}
+          </div>
+
         {% endpaginate %}
       </div>
     {% else %}
