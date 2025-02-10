@@ -161,8 +161,8 @@
     "headline": {{ article.title | json }},
     "author": {
       "@type": "Person",
-      "name": {{  article.author | json }}
-      }
+      "name": {{  article.author | json }},
+    },
     "articleBody": {{ article.content | strip_html | json }},
     {% if article.excerpt != blank %}
       "description": {{ article.excerpt | strip_html | json }},
