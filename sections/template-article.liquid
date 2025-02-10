@@ -165,8 +165,8 @@
     },
     "publisher": {
       "@type": "Organization",
-      "name": {{ shop.name | json }}
-    }
+      "name": {{ shop.name | json }},
+    },
     "articleBody": {{ article.content | strip_html | json }},
     {% if article.excerpt != blank %}
       "description": {{ article.excerpt | strip_html | json }},
