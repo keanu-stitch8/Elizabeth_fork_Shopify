@@ -1,162 +1,169 @@
-<article class="py-8">
-  {% for block in section.blocks %}
-    {% case block.type %}
-      {% when 'article_title' %}
-        <div class="flex items-center justify-center">
-          <div class="max-w-7xl text-center">
-            <a class="text-base uppercase font-bold text-gray-500 hover:text-gray-900" href="{{ blog.url }}">{{ blog.title }}</a>
-            <h1 class="text-4xl md:text-6xl front-medium">{{ article.title }}</h1>
+<article class="max-w-320 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <div class="max-w-full">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'article_title' %}
+          <div class="gap-y-4">
+            <h1 class="text-4xl font-bold text-center leading-16 sm:text-2xl lg:text-5xl">{{ article.title }}</h1>
           </div>
-        </div>
-      {% when 'article_author' %}
-        <div class="flex items-center justify-center">
-          <div class="max-w-7xl text-center">
-            {% if section.settings.enable_author == true %}
-              <small>{{ article.author }}</small>
-            {% endif %}
-          </div>
-        </div>
-        
-      {% when 'article_published_date' %}
-        <div class="flex items-center justify-center">
-          <div class="max-w-7xl text-center">
-            {% if section.settings.enable_published_date == true %}
-              <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'on_date' }}</time>
-            {% endif %}
-          </div>
-        </div>
-      {% when 'featured_image' %}
-        <div class="max-w-7xl bg-gray-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4">
-          {% if article.image != blank %}
-            {% comment %} <img class="w-full h-80 md:h-96 object-cover object-center" src="{{ article.image | image_url: width: 1920, height: 1080 }}" alt="{{ article.image.alt }}" /> {% endcomment %}
-            {{ article.image | image_url: width: 1920, height: 1080 | image_tag }}
-            {% else %}
-              {{ 'lifestyle-2' | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
-          {% endif %}
-        </div>
-      {% when 'article_content' %}
-        <div class="flex items-center justify-center">
-            <div class="max-w-7xl">
-              {{ article.content }}
+        {% when 'article_author' %}
+          <div class="flex items-center justify-center">
+            <div class="max-w-7xl text-center">
+              {% if section.settings.enable_author == true %}
+                <span class="text-base">{{ article.author }}</span>
+              {% endif %}
             </div>
           </div>
-    {% endcase %}
-  {% endfor %}
+          
+        {% when 'article_published_date' %}
+          <div class="flex items-center justify-center">
+            <div class="max-w-7xl text-center">
+              {% if section.settings.enable_published_date == true %}
+                <small class="text-gray-400"><time datetime="{{ article.published_at | date: format: 'date' }}">{{ article.published_at | date: format: 'date' }}</time></small>
+              {% endif %}
+            </div>
+          </div>
+        {% when 'featured_image' %}
+          <div class="max-w-7xl bg-gray-100 rounded-xl mx-2 md:mx-auto overflow-hidden my-6">
+            {% if article.image != blank %}
+              {% comment %} <img class="w-full h-80 md:h-96 object-cover object-center" src="{{ article.image | image_url: width: 1920, height: 1080 }}" alt="{{ article.image.alt }}" /> {% endcomment %}
+              {{ article.image | image_url: width: 1920, height: 1080 | image_tag }}
+              {% else %}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
+            {% endif %}
+          </div>
+        {% when 'article_content' %}
+          <div class="space-y-4">
+            {{ article.content }}
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
 </article>
 
+<!-- Comment -->
 {% if blog.comments_enabled? %}
-  <div id="commnents" class="my-8">
-    {% if article.comments_count > 0 %}
-      <div class="flex-1 itsm-center justify-center mx-auto max-w-4xl px-4">
-        <h1 class="text-lg mb-4 font-medium">
-          See what people are saying
-        </h1>
-        {% paginate article.comments by 5 %}
-          {% for comment in article.comments %}
-            <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 leading-relax">
-              <span class="comment-author">{{ comment.author }}</span>
-              <div class="text-xs text-gray-400">{{ comment.created_at | date: format: 'default' }}</div>
-              <p class="text-sm">
-                {{ comment.content }}
-              </p>
-            </div>
-          {% endfor %}
-
-          {% comment %} {% if paginate.pages > 1 %}
-            {{  paginate| default_pagination }}
-          {% endif %} {% endcomment %}
-
-          <div class="max-w-6xl mx-auto">
-            {% render 'pagination', pagination: paginate %}
+  <div class="bg-gray-100">
+    <div class="max-w-3xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div class="max-w-2xl">
+        <div id="commnents">
+          <div class="text-center">
+            <h2 class="text-2xl font-bold text-center md:text-4xl md:leading-tight">
+              Comments
+            </h2>
           </div>
-
-        {% endpaginate %}
-      </div>
-    {% else %}
-      There are no comments in this article.
-    {% endif %}
-  </div>
-  <div id="comments_form" class="mb-8">
-    {% form 'new_comment', article %}
-      <div class="flex-1 mx-auto items-center justify-center max-w-4xl px-4">
-        {% if form.errors %}
-          <div class="border p-5">
-            <div class="flex flex-row items-center w-full my-3">
-              <div class="text-red-500">
-                {% render 'icon-failed' %}
-              </div>
-              <div class="text-sm font-medium ml-3">
-                Oh no your comment was not posted
-              </div>
-            </div>
-            <ul class="px-4 mb-3 ml-7 list-decimal">
-              {% for error in form.errors %}
-                <li>
-                  <span>{{ form.errors.messages[error] }}</span>
-                </li>
+          {% if article.comments_count > 0 %}
+            <p class="mt-4 md:text-lg text-gray-600 text-center">
+              See what people are saying
+            </p>
+            {% paginate article.comments by 5 %}
+              {% for comment in article.comments %}
+                <div class="mt-4 p-6 relative z-10 bg-white border border-gray-300 rounded-xl">
+                  <div class="text-base font-bold">{{ comment.author }}</div>
+                  <div class="text-xs text-gray-400">{{ comment.created_at | date: format: 'date' }}</div>
+                  <p class="text-sm">{{ comment.content | strip_html }}</p>
+                </div>
               {% endfor %}
-            </ul>
-          </div>
-          {% elsif form.posted_successfully? %}
-            <div class="flex flex-row items-center w-full my-3">
-              <div class="text-green-500">
-                {% render 'icon-success' %}
+
+              {% comment %} {% if paginate.pages > 1 %}
+                {{  paginate| default_pagination }}
+              {% endif %} {% endcomment %}
+
+              <div class="flex justify-center mt-5">
+                {% render 'pagination', pagination: paginate %}
               </div>
-              <div class="text-sm font-medium ml-3">
-                Your comment posted successfully
-              </div>
-            </div>
-        {% endif %}
-        <div class="px-1 md:flex mb-3">
-          <div class="px-3 md:w-1/2">
-            <label for="comment_author" class="text-gray-700 font-medium uppercase text-xs mb-2">
-              Name
-            </label>
-            <input 
-              type="text" 
-              name="comment[author]" 
-              id="comment_author" 
-              class="w-full text-gray-700 border py-3 px-4 mb-3 focus:outline-none"
-              placeholder="Jane Doe"
-              required
-            >
-          </div>
-          <div class="px-3 md:w-1/2">
-            <label for="comment_email" class="text-gray-700 font-medium uppercase text-xs mb-2">
-              Name
-            </label>
-            <input 
-              type="text" 
-              name="comment[email]" 
-              id="comment_email" 
-              class="w-full text-gray-700 border py-3 px-4 mb-3 focus:outline-none"
-              placeholder="janedoe@janedoe.com"
-              required
-            >
-          </div>
-        </div>
-        <div class="px-1 md:flex mb-3">
-          <div class="md:w-full px-3">
-            <label for="comment_content" class="text-gray-700 font-medium uppercase text-xs mb-2">
-              Comment
-            </label>
-            <textarea 
-              class="w-full text-gray-700 border py-3 px-4 mb-3 focus:outline-none" 
-              name="comment[body]" 
-              id="comment_content"
-              placeholder="Write comment here"
-              required
-            >
-            </textarea>
-          </div>
-        </div>
-        <div class="px-1 md:flex mb-3">
-          <div class="w-full px-3">
-            <input type="submit" class="w-full inline-flex rounded-md bg-amber-500 font-bold text-base text-white decoration-0 px-4 py-3 inset-shadow-[0_-2px_0_0_rgba(0,0,0,0.125)] cursor-pointer">
-          </div>
+
+            {% endpaginate %}
+          {% else %}
+            <p class="mt-4 md:text-lg text-gray-600 text-center">
+              There are no comments in this article.
+            </p>
+          {% endif %}
         </div>
       </div>
-    {% endform %}
+    </div>
+  </div>
+
+  <div class="max-w-3xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="max-w-2xl">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-center md:text-4xl md:leading-tight">
+          Post a comment
+        </h2>
+      </div>
+      <div class="mt-5 p-4 relative z-10 bg-white border border-gray-300 rounded-xl sm:mt-10 md:p-10">
+        {% form 'new_comment', article %}
+            {% if form.errors %}
+              <div class="border p-5">
+                <div class="flex flex-row items-center w-full my-3">
+                  <div class="text-red-500">
+                    {% render 'icon-failed' %}
+                  </div>
+                  <div class="text-sm font-medium ml-3">
+                    Oh no your comment was not posted
+                  </div>
+                </div>
+                <ul class="px-4 mb-3 ml-7 list-decimal">
+                  {% for error in form.errors %}
+                    <li>
+                      <span>{{ form.errors.messages[error] }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% elsif form.posted_successfully? %}
+                <div class="flex flex-row items-center w-full my-3">
+                  <div class="text-green-500">
+                    {% render 'icon-success' %}
+                  </div>
+                  <div class="text-sm font-medium ml-3">
+                    Your comment posted successfully
+                  </div>
+                </div>
+            {% endif %}
+
+            <div class="mb-4 sm:mb-8">
+              <label for="comment_author" class="block mb-2 text-sm font-medium">Name</label>
+              <input 
+                type="text" 
+                name="comment[author]" 
+                id="comment_author" 
+                class="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" 
+                placeholder="Jane Doe"
+                required
+              >
+            </div>
+
+            <div class="mb-4 sm:mb-8">
+              <label for="comment_author" class="block mb-2 text-sm font-medium">Email address</label>
+              <input 
+                type="text" 
+                name="comment[email]" 
+                id="comment_email" 
+                class="py-3 px-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" 
+                placeholder="janedoe@janedoe.com"
+                required
+              >
+            </div>
+
+            <div class="mb-4 sm:mb-8">
+              <label for="comment_content" class="block mb-2 text-sm font-medium">Comment</label>
+              <textarea 
+                rows="4"
+                name="comment[body]" 
+                id="comment_content" 
+                class="py-3 px-4 w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" 
+                placeholder="Write comment here"
+              >
+              </textarea>
+            </div>
+
+            <div class="mt-6 grid">
+              <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white cursor-pointer hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">Submit</button>
+            </div>
+        {% endform %}
+      </div>
+    </div>
   </div>
 {% endif %}
 
