@@ -8,7 +8,37 @@
       </div>
 
       {% form 'contact' %}
-        {% if form.posted_successfully? %} Thank you for your contact {% endif %}
+        {% if form.errors %}
+          <div class="rounded-md bg-red-50 mb-6 p-4">
+            <div class="flex">
+              <div>
+                {% render 'icon-failed', svg_class: "shrink-0 size-6 fill-red-400 text-white" %}
+              </div>
+              <div class="ml-2">
+                <div class="font-medium text-sm leading-6 text-red-800 ">There were errors with your submissions</div>
+                <div class="mt-2">
+                  <ul class="text-sm text-red-700 space-y-1 list-disc pl-5">
+                    {% for error in form.errors %}
+                      <li>{{ form.errors.messages[error] }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        {% if form.posted_successfully? %}
+          <div class="rounded-md bg-green-50 mb-6 p-4">
+            <div class="flex">
+              <div>
+                {% render 'icon-success', svg_class: "shrink-0 size-6 fill-green-400 text-white" %}
+              </div>
+              <div class="ml-2">
+                <div class="font-medium text-sm leading-6 text-green-800 ">Form sent successfully</div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
         <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <label for="contact_name" class="block text-sm/6 font-semibold text-gray-900">Name</label>
