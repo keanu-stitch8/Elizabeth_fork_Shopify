@@ -8,6 +8,7 @@
       </div>
 
       {% form 'contact' %}
+        {% if form.posted_successfully? %} Thank you for your contact {% endif %}
         <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <label for="contact_name" class="block text-sm/6 font-semibold text-gray-900">Name</label>
