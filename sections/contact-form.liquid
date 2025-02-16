@@ -16,12 +16,13 @@
                 {% render 'icon-failed', svg_class: "shrink-0 size-6 fill-red-400 text-white" %}
               </div>
               <div class="ml-2">
-                <div class="font-medium text-sm leading-6 text-red-800 ">There were errors with your submissions</div>
+                <div class="font-medium text-sm leading-6 text-red-800 ">{{ 'templates.contact.form.error_heading' | t }}</div>
                 <div class="mt-2">
                   <ul class="text-sm text-red-700 space-y-1 list-disc pl-5">
                     {% for error in form.errors %}
                       <li>
-                          {{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+                        {{ form.errors.translated_fields.email | capitalize }}
+                        {{ form.errors.messages.email }}
                       </li>
                     {% endfor %}
                   </ul>
@@ -37,33 +38,35 @@
                 {% render 'icon-success', svg_class: "shrink-0 size-6 fill-green-400 text-white" %}
               </div>
               <div class="ml-2">
-                <div class="font-medium text-sm leading-6 text-green-800 ">Form sent successfully</div>
+                <div class="font-medium text-sm leading-6 text-green-800 ">{{ 'templates.contact.form.post_success' | t}}</div>
               </div>
             </div>
           </div>
         {% endif %}
         <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div class="sm:col-span-2">
-            <label for="contact_name" class="block text-sm/6 font-semibold text-gray-900">Name</label>
+            <label for="contact_name" class="block text-sm/6 font-semibold text-gray-900">{{ 'templates.contact.form.name' | t }}</label>
             <div class="mt-2.5">
               <input type="text" name="contact[name]" id="contact_name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="contact_email" class="block text-sm/6 font-semibold text-gray-900">Email</label>
+            <label for="contact_email" class="block text-sm/6 font-semibold text-gray-900">{{ 'templates.contact.form.email' | t }}</label>
             <div class="mt-2.5">
               <input type="email" name="contact[email]" id="contact_email" autocomplete="email" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="contact_body" class="block text-sm/6 font-semibold text-gray-900">Message</label>
+            <label for="contact_body" class="block text-sm/6 font-semibold text-gray-900">{{ 'templates.contact.form.comment' | t }}</label>
             <div class="mt-2.5">
               <textarea name="contact[body]" id="contact_body" rows="4" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"></textarea>
             </div>
           </div>
         </div>
         <div class="mt-10">
-          <button type="submit" class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Let's talk</button>
+          <button type="submit" class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            {{ 'templates.contact.form.send' | t }}
+          </button>
         </div>
       {% endform %}
 

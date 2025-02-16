@@ -1,0 +1,95 @@
+<link
+  rel="stylesheet"
+  href="{{ 'swiper-bundle_11.2.3.min.css' | asset_url }}"
+  media="print"
+  onload="this.media='all'"
+/>
+<style>
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: black;
+    top: auto !important;
+    height: 1.5rem;
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 1.5rem;
+  }
+</style>
+<script src="{{ 'swiper-bundle_11.2.3.min.js' | asset_url }}" defer></script>
+
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+      <div class="hidden md:block">
+        {% for media in product.media %}
+          {% render 'product-media', media: media %}
+        {% endfor %}
+      </div>
+      <div class="md:hidden">
+        <div class="swiper h-[22rem]">
+          <div class="swiper-wrapper">
+            {% for media in product.media %}
+              <div class="swiper-slide">
+                <div class="h-80 overflow-hidden p-2">
+                  <div class="swiper-slide">
+                  {% render 'product-media', media: media %}
+                </div>
+                </div>
+              </div>
+            {% endfor %}
+            {{ product.title }}
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev">
+  
+          </div>
+          <div class="swiper-button-next">
+  
+          </div>
+        
+        </div>
+      </div>
+
+      {% form 'product', product %}
+
+        <div class="text-xs text-gray-500">
+          {{ product.vendor }}
+        </div>
+        <div class="mb-8">
+          <h1 class="text-4xl font-bold text-center leading-16 sm:text-2xl lg:text-5xl">{{ product.title }}</h1>
+        </div>
+        <div class="my-3">
+          {% assign product_price = product.selected_or_first_available_variant %}
+          <span class="text-base text-gray-500 line-through">
+            {{ product_price.compare_at_price | money }}
+          </span>
+          <span class="text-lg text-gray-900">{{ product_price.price | money }}</span>
+          {% if product_price.price < product_price.compare_at_price %}
+            <span class="px-5 py-1 text-sm font-bold bg-red-500 rounded-full text-white mx-4">
+              Sale
+            </span>
+          {% endif %}
+        </div>
+      {% endform %}
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  window.addEventListener("load", function(){
+    const swiper = new Swiper('.swiper', {
+      direction: 'horizontal',
+      pagination: {
+        el: '.swiper-pagination'
+      },
+      navigation: {
+        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-next'
+      }
+    });
+    })
+
+</script>
