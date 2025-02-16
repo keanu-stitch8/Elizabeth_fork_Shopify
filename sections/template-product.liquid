@@ -18,7 +18,9 @@
 </style>
 <script src="{{ 'swiper-bundle_11.2.3.min.js' | asset_url }}" defer></script>
 
-<div class="bg-white">
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
+<div class="bg-white" data-url="{{ product.url }}" data-section="{{ section.id }}" data-update-url="true" data-product-id="{{ product.id }}">
   <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
       
@@ -43,37 +45,85 @@
               {{ product.title }}
             </div>
             <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev">
-    
-            </div>
-            <div class="swiper-button-next">
-    
-            </div>
-          
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
           </div>
         </div>
       </div>
 
-      {% form 'product', product %}
-        <div class="text-xs text-gray-500">
-          {{ product.vendor }}
-        </div>
-        <div class="mb-8">
-          <h1 class="text-4xl font-bold leading-16 sm:text-2xl lg:text-5xl">{{ product.title }}</h1>
-        </div>
-        <div class="my-3">
-          {% assign product_price = product.selected_or_first_available_variant %}
-          <span class="text-base text-gray-500 line-through">
-            {{ product_price.compare_at_price | money }}
-          </span>
-          <span class="text-lg text-gray-900">{{ product_price.price | money }}</span>
-          {% if product_price.price < product_price.compare_at_price %}
-            <span class="px-5 py-1 text-sm font-bold bg-red-500 rounded-full text-white mx-4">
-              Sale
+      <div class="sticky">
+        {% form 'product', product %}
+          <input type="hidden" name="id" value={{ selected_variant.id }} />
+          <div class="text-xs text-gray-500">
+            {{ product.vendor }}
+          </div>
+          <div class="mb-8">
+            <h1 class="text-4xl font-bold leading-16 sm:text-2xl lg:text-5xl">{{ product.title }}</h1>
+          </div>
+          <div class="my-3">
+            <span class="text-base text-gray-500 line-through">
+              {{ selected_variant.compare_at_price | money }}
             </span>
-          {% endif %}
-        </div>
-      {% endform %}
+            <span class="text-lg text-gray-900">{{ selected_variant.price | money }}</span>
+            {% if selected_variant.price < selected_variant.compare_at_price %}
+              <span class="px-5 py-1 text-sm font-bold bg-red-500 rounded-full text-white mx-4">
+                Sale
+              </span>
+            {% endif %}
+
+            <div class="my-3">
+              {% unless product.has_only_default_variant %}
+                <div>
+                  {% for option in product.options_with_values %}
+                    <label for="option-{{ section.id }}-{{ forloop.index }}">{{ option.name }}</label>
+                    <select name="options[{{ option.name | escape }}]" id="option-{{ section.id }}-{{ forloop.index }}" class="w-full">
+                      {% for value in option.values %}
+                        <option 
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}
+                            selected
+                          {% endif %}
+                        >
+                          {{ value }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  {% endfor %}
+                </div>
+              {% endunless %} 
+            </div>
+
+            <div class="my-3">
+              <label for="quantity-{{ section.id }}">Quantity</label>
+              <input type="number" name="quantity" id="quantity-{{ section.id }}" value="1" min="1" class="w-full">
+            </div>
+          </div>
+
+          <div class="my-3">
+            <p class="text-gray-700">
+              {{ product.description }}
+            </p>
+          </div>
+
+          <div class="my-3">
+            <button 
+              type="submit" 
+              name="add" 
+              class="w-full bg-orange-500 text-white"
+              {% if selected_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+              {% if selected_variant.available == false %}
+                Sold out
+                {% else %}
+                  Add to cart
+              {% endif %}
+              
+            </button>
+          </div>
+        {% endform %}
+      </div>
 
     </div>
   </div>

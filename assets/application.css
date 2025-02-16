@@ -991,6 +991,9 @@
   .bg-indigo-600 {
     background-color: var(--color-indigo-600);
   }
+  .bg-orange-500 {
+    background-color: var(--color-orange-500);
+  }
   .bg-red-50 {
     background-color: var(--color-red-50);
   }
