@@ -1,0 +1,33 @@
+{% if search.performed %}
+  <div class="bg-white">
+    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold text-center leading-16 sm:text-2xl lg:text-5xl">{{ 'templates.search.title' | t }}</h1>
+        <div class="flex justify-center items-center">
+          <p class="text-center">{{ 'templates.search.results_with_count_and_term.one' | t: count: search.results_count, terms: search.terms }}</p>
+        </div>
+      </div>
+      
+      {% if search.results.size > 0 %}
+        {% paginate search.results by 12 %}
+          <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {% for item in search.results %}
+              {% case item.object_type %}
+                {% when 'product' %}
+                  {% render 'product-card', product_card: item %}
+                {% else %}
+                  
+              {% endcase %}
+            {% endfor %}
+          </div>
+          <div class="flex justify-center mt-10">
+            {% render 'pagination', pagination: paginate %}
+          </div>
+        {% endpaginate %}
+        {% else %}
+          <p class="text-center">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>  
+      {% endif %}
+    
+    </div>
+  </div>
+{% endif %}

@@ -20,9 +20,9 @@
       
       <p class="text-sm font-medium text-gray-900 mt-auto">{{ product_card.price | money }}</p>
       {% if product_card.available %}
-        <p class="inline-flex items-center mt-1 text-sm text-green-600 gap-x-1">{% render 'icon-success' %}In stock</p>
+        <p class="inline-flex items-center mt-1 text-sm text-green-600 gap-x-1">{% render 'icon-success', svg_class: "shrink-0 size-6 fill-green-400 text-white" %}In stock</p>
         {% else %}
-          <p class="inline-flex items-center mt-1 text-sm text-red-600 gap-x-1">{% render 'icon-failed' %}Not in stock</p>
+          <p class="inline-flex items-center mt-1 text-sm text-red-600 gap-x-1">{% render 'icon-failed', svg_class: "shrink-0 size-6 fill-red-400 text-white" %}Not in stock</p>
       {% endif %}
     </div>
   </div>
