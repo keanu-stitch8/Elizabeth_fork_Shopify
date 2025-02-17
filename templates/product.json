@@ -22,7 +22,7 @@
           "type": "description"
         },
         "checkout_button": {
-          "type": "checkout_buttons"
+          "type": "checkout_button"
         }
       },
       "block_order": [
@@ -32,7 +32,7 @@
         "variant_selector",
         "quantity",
         "description",
-        "checkout_buttons"
+        "checkout_button"
       ]
     }
   },
