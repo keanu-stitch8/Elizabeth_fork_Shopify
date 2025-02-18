@@ -1,0 +1,9 @@
+
+{
+  "sections": {
+    "template": {
+      "type": "template-customers-register"
+    }
+  },
+  "order": ["template"]
+}
