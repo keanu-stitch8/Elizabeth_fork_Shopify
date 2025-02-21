@@ -1,0 +1,62 @@
+<div class="bg-white">
+  <div class="mx-auto max-w-lg px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-center leading-16 sm:text-2xl lg:text-5xl">{{ 'customer.activate_account.title' | t }}</h1>
+      <p class="text-center">{{ 'customer.activate_account.subtext' | t }}</p>
+    </div>
+    <div>
+      {% form 'activate_customer_password', class: 'space-y-6' %}
+        {% if form.errors %}
+          <div class="rounded-md bg-red-50 mb-6 p-4">
+            <div class="flex">
+              <div>
+                {% render 'icon-failed', svg_class: "shrink-0 size-6 fill-red-400 text-white" %}
+              </div>
+              <div class="ml-2">
+                <div class="font-medium text-sm leading-6 text-red-800 ">
+                    {{ form.errors | default_errors }}
+                </div>
+              </div>
+            </div>
+        </div>
+        {% endif %}
+        <div>
+          <label for="password" class="block text-sm/6 font-medium text-gray-900">
+            {{ 'customer.activate_account.password' | t }}
+          </label>
+          <div class="mt-2">
+            <input 
+              type="password" 
+              name="customer[password]" 
+              id="password" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              placeholder="{{ 'customer.activate_account.password' | t }}"
+            >
+          </div>
+        </div>
+        <div>
+          <label for="confirm_password" class="block text-sm/6 font-medium text-gray-900">
+            {{ 'customer.activate_account.password_confirm' | t }}
+          </label>
+          <div class="mt-2">
+            <input 
+              type="password" 
+              name="customer[password_confirmation]" 
+              id="password_confirmation" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              placeholder="{{ 'customer.activate_account.password_confirm' | t }}"
+            >
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <button type="submit" class="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs cursor-pointer hover:bg-green-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            {{ 'customer.activate_account.submit' | t }}
+          </button>
+          <button type="submit" name="decline" class="flex w-full justify-center rounded-md bg-white ring-gray-300 ring ring-inset ring-offset-0 px-3 py-1.5 text-sm/6 font-semibold text-gray-900 shadow-xs cursor-pointer hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            {{ 'customer.activate_account.cancel' | t }}
+          </button>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>
