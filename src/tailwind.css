@@ -1,1 +1,20 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-success: var(--color-green-400);
+  --color-success-title: var(--color-green-800);
+  --color-success-text: var(--color-green-700);
+  --color-success-bg: var(--color-green-50);
+  --color-danger: var(--color-red-400);
+  --color-danger-title: var(--color-red-800);
+  --color-danger-text: var(--color-red-700);
+  --color-danger-bg: var(--color-red-50);
+  --color-warning: var(--color-yellow-400);
+  --color-warning-title: var(--color-yellow-800);
+  --color-warning-text: var(--color-yellow-700);
+  --color-warning-bg: var(--color-yellow-50);
+  --color-info: var(--color-blue-400);
+  --color-info-title: var(--color-blue-800);
+  --color-info-text: var(--color-blue-700);
+  --color-info-bg: var(--color-blue-50);
+}

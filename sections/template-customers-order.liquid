@@ -15,7 +15,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12 p-4 md:p-12">
                     <div class="w-full h-80 min-h-80 bg-gray-200 rounded-md overflow-hidden border">
                         {% if line_item.image %}
-                            <img class="w-full h-full object-center object-cover" src="{{ line_item.image | img_url: 'medium' }}" alt="{{ line_item.image.alt }}">
+                            {{ line_item.image | image_url: width: 400 | image_tag: class: "w-full h-full object-center object-cover" }}
                         {% else %}
                             {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-center object-cover' }}    
                         {% endif %}
@@ -72,7 +72,7 @@
                         <p class="mb-2">Tracking number: {{ line_item.fulfillment.tracking_number }}</p>
 
                         <a target="_blank" href="{{ line_item.fulfillment.tracking_url }}" class="flex w-max text-sm text-white font-medium bg-gray-700 hover:bg-gray-900 px-4 py-1 rounded">
-                            Track order <span class="ml-1">{% render 'icon-link' %}</span>
+                            Track order <span class="ml-1">{% render 'icon-chevron-right' %}</span>
                         </a>
                     {% else %}
                         <p class="text-gray-500">This item is not yet fulfilled</p>
