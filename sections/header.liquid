@@ -15,7 +15,29 @@
       </div>
 
       <!-- NAVIGATION MENU -->
-      <nav x-data="{ open: false }" class="hidden md:flex gap-10">
+      <nav class="hidden md:flex">
+        <ul class="flex gap-x-6">
+          {% for link in main_menu_linklists %}
+            <li class="relative group">
+              <a class="inline-flex items-center text-base text-gray-500 cursor-pointer hover:text-gray-900">
+                {{ link.title }}
+                {% if link.links != blank %}{% render 'icon-dropdown', svg_class: "shrink-0 size-4 ml-1" %}{% endif %}
+              </a>
+              {% if link.links != blank %}
+                <ul class="absolute -left-[999rem] block border border-bg-gray-200 rounded-lg py-1 z-10 group-hover:left-auto">
+                  {% for childlink in link.links %}
+                    <li>
+                      <a href="{{ childlink.url }}" class="flex flex-nowrap text-sm leading-4 px-2 py-1 whitespace-nowrap">{{ childlink.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+            {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      {% comment %} <nav x-data="{ open: false }" class="hidden md:flex gap-10">
         {% for link in main_menu_linklists %}
           {% if link.links != blank %}
             <div class="relative">
@@ -45,7 +67,7 @@
             </div>
           {% endif %}
         {% endfor %}
-      </nav>
+      </nav> {% endcomment %}
 
       <div class="hidden md:flex items-center justify-end md:flex-1 gap-5">
         <button x-on:click="searchBarOpen = true" type="button" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">
